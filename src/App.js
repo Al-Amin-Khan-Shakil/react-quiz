@@ -9,6 +9,7 @@ import Question from './components/Question';
 const initialState = {
   questions: [],
   status: 'loading',
+  index: 0,
 };
 
 function reducer(state, action) {
@@ -28,7 +29,10 @@ function reducer(state, action) {
 }
 
 function App() {
-  const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
+  const [{ questions, status, index }, dispatch] = useReducer(
+    reducer,
+    initialState,
+  );
 
   useEffect(() => {
     fetch('http://localhost:8000/questions')
@@ -46,7 +50,7 @@ function App() {
         {status === 'ready' && (
           <StartScreen questions={questions} dispatch={dispatch} />
         )}
-        {status === 'active' && <Question questions={questions} />}
+        {status === 'active' && <Question question={questions[index]} />}
       </Main>
     </div>
   );
